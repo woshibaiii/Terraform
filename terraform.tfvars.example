@@ -1,12 +1,11 @@
 proxmox_host         = "192.168.1.100"
 proxmox_api_token    = "terraform@pve!terraform-token=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-proxmox_ssh_password = "your-proxmox-root-password"
-vm_name              = "terraform-test"
-vm_count             = 1
+proxmox_ssh_password = "your-root-password"
+vm_name              = "ubuntu"
+vm_count             = 3
 vm_cores             = 2
 vm_memory            = 2048
 vm_disk_size         = 20
-vm_ip                = "192.168.1.50/24"
 vm_gateway           = "192.168.1.1"
 ssh_user             = "ubuntu"
 ssh_public_key       = "ssh-ed25519 AAAA... your-key"
