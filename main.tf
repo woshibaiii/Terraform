@@ -1,11 +1,11 @@
 resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   count     = var.vm_count
-  name  = "${var.vm_name}-${count.index + 1}"
-  node_name = "pmx01"
+  name      = "${var.vm_name}-${count.index + 1}"
+  node_name = local.node_name
   vm_id     = 100 + count.index
 
   clone {
-    vm_id = 9000
+    vm_id = local.template_id
     full  = true
   }
 
@@ -46,7 +46,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
       keys     = [var.ssh_public_key]
     }
 
-    user_data_file_id = proxmox_virtual_environment_file.cloud_init.id
+    user_data_file_id = local.cloud_init_id
   }
 
   operating_system {
@@ -57,7 +57,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
 resource "proxmox_virtual_environment_file" "cloud_init" {
   content_type = "snippets"
   datastore_id = "local"
-  node_name    = "pmx01"
+  node_name    = local.node_name
 
   source_raw {
     data = <<-EOF

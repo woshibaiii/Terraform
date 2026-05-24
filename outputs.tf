@@ -1,14 +1,16 @@
-output "vm_names" {
-  description = "Имена VM"
-  value       = proxmox_virtual_environment_vm.ubuntu_vm[*].name
-}
-
 output "vm_ids" {
-  description = "ID VM в Proxmox"
-  value       = proxmox_virtual_environment_vm.ubuntu_vm[*].vm_id
+  value = { for k, vm in proxmox_virtual_environment_vm.ubuntu_vm : vm.name => vm.vm_id }
 }
 
 output "vm_ipv4" {
-  description = "IP адреса VM"
-  value       = proxmox_virtual_environment_vm.ubuntu_vm[*].ipv4_addresses
+  value = {
+    for k, vm in proxmox_virtual_environment_vm.ubuntu_vm : vm.name => flatten([
+      for iface in vm.ipv4_addresses : iface
+      if !contains(iface, "127.0.0.1")
+    ])
+  }
+}
+
+output "vm_names" {
+  value = [ for vm in proxmox_virtual_environment_vm.ubuntu_vm : vm.name ]
 }
