@@ -61,3 +61,9 @@ variable "proxmox_ssh_password" {
   type        = string
   sensitive   = true
 }
+
+variable "vm_count" {
+  description = "Количество VM"
+  type        = number
+  default     = 1
+}

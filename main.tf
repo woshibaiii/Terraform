@@ -1,6 +1,8 @@
 resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
-  name      = var.vm_name
+  count     = var.vm_count
+  name  = "${var.vm_name}-${count.index + 1}"
   node_name = "pmx01"
+  vm_id     = 100 + count.index
 
   clone {
     vm_id = 9000
@@ -34,7 +36,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   initialization {
     ip_config {
       ipv4 {
-        address = var.vm_ip
+        address = "192.168.1.${50 + count.index}/24"
         gateway = var.vm_gateway
       }
     }
@@ -61,8 +63,7 @@ resource "proxmox_virtual_environment_file" "cloud_init" {
     data = <<-EOF
       #cloud-config
       package_update: true
-      packages:
-        - qemu-guest-agent
+      package_upgrade: true
       runcmd:
         - systemctl enable qemu-guest-agent
         - systemctl start qemu-guest-agent

@@ -2,6 +2,7 @@ proxmox_host         = "192.168.1.100"
 proxmox_api_token    = "terraform@pve!terraform-token=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 proxmox_ssh_password = "your-proxmox-root-password"
 vm_name              = "terraform-test"
+vm_count             = 1
 vm_cores             = 2
 vm_memory            = 2048
 vm_disk_size         = 20
