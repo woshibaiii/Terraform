@@ -1,7 +1,6 @@
 resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
-  name      = "terraform-test"
+  name      = var.vm_name
   node_name = "pmx01"
-  vm_id     = 100
 
   clone {
     vm_id = 9000
@@ -9,12 +8,12 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   }
 
   cpu {
-    cores = 2
+    cores = var.vm_cores
     type  = "x86-64-v2-AES"
   }
 
   memory {
-    dedicated = 2048
+    dedicated = var.vm_memory
   }
 
   network_device {
@@ -25,20 +24,19 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
   disk {
     datastore_id = "local-lvm"
     interface    = "scsi0"
-    size         = 20
+    size         = var.vm_disk_size
   }
 
   initialization {
     ip_config {
       ipv4 {
-        address = "dhcp"
+        address = var.vm_ip
       }
     }
 
     user_account {
       username = "ubuntu"
-      password = "changeme123"
-      keys     = []
+      keys     = [var.ssh_public_key]
     }
   }
 
