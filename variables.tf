@@ -43,3 +43,21 @@ variable "ssh_public_key" {
   description = "SSH публичный ключ"
   type        = string
 }
+
+variable "vm_gateway" {
+  description = "Gateway сети"
+  type        = string
+  default     = "192.168.1.1"
+}
+
+variable "ssh_user" {
+  description = "Имя пользователя"
+  type        = string
+  default     = "ubuntu"
+}
+
+variable "proxmox_ssh_password" {
+  description = "Proxmox root SSH password"
+  type        = string
+  sensitive   = true
+}
