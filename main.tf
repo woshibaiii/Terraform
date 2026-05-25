@@ -67,6 +67,8 @@ resource "proxmox_virtual_environment_file" "cloud_init" {
       runcmd:
         - systemctl enable qemu-guest-agent
         - systemctl start qemu-guest-agent
+        - echo "nameserver 8.8.8.8" > /etc/resolv.conf
+        - echo "nameserver 1.1.1.1" >> /etc/resolv.conf
     EOF
 
     file_name = "cloud-init-${var.vm_name}.yaml"
