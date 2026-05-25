@@ -39,9 +39,10 @@ variable "vm_ip" {
   default     = "dhcp"
 }
 
-variable "ssh_public_key" {
-  description = "SSH публичный ключ"
+variable "ssh_public_key_path" {
+  description = "Путь к файлу публичного SSH ключа"
   type        = string
+  default     = "~/.ssh/id_ed25519.pub"
 }
 
 variable "vm_gateway" {

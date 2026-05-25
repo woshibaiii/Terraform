@@ -43,9 +43,7 @@ resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
 
     user_account {
       username = var.ssh_user
-      keys     = [var.ssh_public_key]
     }
-
     user_data_file_id = local.cloud_init_id
   }
 
@@ -60,15 +58,17 @@ resource "proxmox_virtual_environment_file" "cloud_init" {
   node_name    = local.node_name
 
   source_raw {
-    data = <<-EOF
-      #cloud-config
-      package_update: true
-      package_upgrade: true
-      runcmd:
-        - systemctl enable qemu-guest-agent
-        - systemctl start qemu-guest-agent
-    EOF
+  data = <<-EOF
+    #cloud-config
+    package_update: true
+    package_upgrade: true
+    ssh_authorized_keys:
+  - ${file(var.ssh_public_key_path)}}
+    runcmd:
+      - systemctl enable qemu-guest-agent
+      - systemctl start qemu-guest-agent
+  EOF
 
-    file_name = "cloud-init-${var.vm_name}.yaml"
+  file_name = "cloud-init-${var.vm_name}.yaml"
   }
 }
